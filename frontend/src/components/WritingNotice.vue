@@ -1,53 +1,37 @@
 <template>
   <div>
-    <md-field>
-      <md-icon>event</md-icon>
-      <label>Date</label>
-      <md-input v-model="date"></md-input>
-      <vue-timepicker></vue-timepicker>
+    <md-field :class="messageClass">
+      <label>제목</label>
+      <md-input v-model="title" required></md-input>
+      <span class="md-error">제목을 입력해주세요.</span>
     </md-field>
 
-    <md-field>
-      <label>Voice</label>
-      <md-input v-model="voice"></md-input>
-      <md-icon>keyboard_voice</md-icon>
+    <md-field :class="messageClass">
+      <label>내용</label>
+      <md-textarea v-model="textarea" required></md-textarea>
+      <span class="md-helper-text">공지할 내용을 입력해주세요.</span>
+      <span class="md-error">내용을 입력해주세요.</span>
     </md-field>
 
-    <md-field>
-      <label>Description</label>
-      <md-textarea v-model="description"></md-textarea>
-      <md-icon>description</md-icon>
-    </md-field>
-
-    <md-field>
-      <md-icon class="md-accent">warning</md-icon>
-      <label>Transfer Money</label>
-      <md-input v-model="money"></md-input>
-      <md-icon>attach_money</md-icon>
-    </md-field>
+    <md-switch v-model="hasMessages">{{ !hasMessages ? 'Show' : 'Hide' }} Errors</md-switch>
   </div>
 </template>
 
 <script>
   export default {
-    name: 'FieldIcons',
+    name: 'ErrorsMessages',
     data: () => ({
-      date: null,
-      voice: null,
-      description: null,
-      money: null
+      title: null,
+      // required: null,
+      textarea: null,
+      hasMessages: false
     }),
-    methods: {
-
-    },
-    created() {
-      alert("params => " + JSON.stringify(this.$route.params));
+    computed: {
+      messageClass () {
+        return {
+          'md-invalid': this.hasMessages
+        }
+      }
     }
   }
 </script>
-
-<style lang="scss" scoped>
-  .md-field:last-child {
-    margin-bottom: 40px;
-  }
-</style>

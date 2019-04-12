@@ -3,23 +3,25 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-
 import axios from 'axios'
-Vue.prototype.$http = axios
-
-Vue.config.productionTip = false
-
+import VueRouter from 'vue-router';
 import { MdButton, MdContent, MdTabs } from 'vue-material/dist/components'
 import VueMaterial from 'vue-material'
 import 'vue-material/dist/vue-material.min.css'
 import 'vue-material/dist/theme/default.css'
-import VueRouter from 'vue-router';
+import moment from "moment"
+import VueMomentJS from "vue-momentjs"
 
+Vue.use(VueRouter)
 Vue.use(MdButton)
 Vue.use(MdContent)
 Vue.use(MdTabs)
 Vue.use(VueMaterial)
-Vue.use(VueRouter)
+Vue.use(VueMomentJS, moment)
+
+Vue.prototype.$http = axios
+
+Vue.config.productionTip = false
 
 /* eslint-disable no-new */
 new Vue({
