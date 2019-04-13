@@ -5,19 +5,27 @@ import App from './App'
 import router from './router'
 import axios from 'axios'
 import VueRouter from 'vue-router';
+
 import { MdButton, MdContent, MdTabs } from 'vue-material/dist/components'
 import VueMaterial from 'vue-material'
 import 'vue-material/dist/vue-material.min.css'
 import 'vue-material/dist/theme/default.css'
+
+import Vuetify from 'vuetify'
+import './plugins/vuetify'
+import 'vuetify/dist/vuetify.min.css' // Ensure you are using css-loader
+
 import moment from "moment"
 import VueMomentJS from "vue-momentjs"
+
+Vue.use(VueMomentJS, moment)
 
 Vue.use(VueRouter)
 Vue.use(MdButton)
 Vue.use(MdContent)
 Vue.use(MdTabs)
 Vue.use(VueMaterial)
-Vue.use(VueMomentJS, moment)
+Vue.use(Vuetify)
 
 Vue.prototype.$http = axios
 

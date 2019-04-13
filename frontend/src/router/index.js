@@ -11,6 +11,7 @@ import MovieShowPage from '@/components/MovieShowPage'
 
 import Notice from '@/components/Notice'
 import WritingNotice from '@/components/WritingNotice'
+import DataTable from '@/components/DataTable'
 
 export default new Router({
   mode: 'history',
@@ -45,6 +46,11 @@ export default new Router({
       name: 'noticeWriting',
       component: WritingNotice,
       props: true
+    },
+    {
+      path: '/dataTable',
+      name: 'dataTable',
+      component: DataTable
     }
   ]
 })
