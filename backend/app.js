@@ -4,6 +4,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+var noticeRouter = require('./routes/notice');
 var indexRouter = require('./routes/index');
 var moviesRouter = require('./routes/movies');  // vue에 데이터를 전달할 테스트 라우터
 // var usersRouter = require('./routes/users');
@@ -24,6 +25,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/api/movies', moviesRouter);
+app.use('/api/notice', noticeRouter);
 // app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler

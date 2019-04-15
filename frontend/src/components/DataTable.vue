@@ -11,8 +11,12 @@
       :headers="headers"
       :items="list"
       :expand="expand"
+      :loading="progress"
       item-key="id"
     >
+      <template v-slot:loading="props">
+        <v-progress-linear :indeterminate="true"></v-progress-linear>
+      </template>
       <template v-slot:items="props">
         <tr @click="props.expanded = !props.expanded">
           <td>{{ props.item.id }}</td>
@@ -55,9 +59,13 @@ const searchByText = (items, term) => {
 };
 
   export default {
+    created() {
+      this.initialize();
+    },
     data () {
       return {
         expand: false,
+        progress: true,
         headers: [
           {
             text: 'No',
@@ -114,115 +122,27 @@ const searchByText = (items, term) => {
             value: 'reg_date'
           }
         ],
-        list: [
-            {
-                "app_key" : "COIOIOP1",
-                "country_code" : "US",
-                "title" : "[IoCare 서버 점검 공지 드립니다.]",
-                "contents" : "IoCare 서버 점검에 대한 내용을 아래와 같이 공지드립니다.\r\n\r\n1. 점검 일시 : 4\/13(토) 23:00 ~ 14(일) 08:00 (9시간)\r\n2. 점검 내용 : 서버 정기점검 및 안정화 개선 작업\r\n3. 점검 영향 : 새로운 제품 등록 불가, Home, 레포트, 기기관리 메뉴 일부 기능 사용 불가\r\n\r\n당 점검 시간 동안 일부 기능 사용 불가함에 널리 양해하여 주시기 바랍니다.\r\n점검을 통해 보다 좋은 서비스를 제공하도록 하겠습니다.\r\n\r\n감사합니다\r\n\r\n•제품 및 서비스 문의 : 웅진코웨이 고객센터 1588-5200",
-                "show_yn" : "N",
-                "start_date" : "20190413230000",
-                "end_date" : "20190414080000",
-                "skip_yn" : "Y",
-                "id" : 8,
-                "reg_date" : "2019-04-08T02:20:11Z"
-            },
-            {
-                "app_key" : "COIOIOP1",
-                "country_code" : "KR",
-                "title" : "[IoCare 서버 점검 공지 드립니다.]",
-                "contents" : "IoCare 서버 점검에 대한 내용을 아래와 같이 공지드립니다.\r\n\r\n1. 점검 일시 : 4\/13(토) 23:00 ~ 14(일) 08:00 (9시간)\r\n2. 점검 내용 : 서버 정기점검 및 안정화 개선 작업\r\n3. 점검 영향 : 새로운 제품 등록 불가, Home, 레포트, 기기관리 메뉴 일부 기능 사용 불가\r\n\r\n당 점검 시간 동안 일부 기능 사용 불가함에 널리 양해하여 주시기 바랍니다.\r\n점검을 통해 보다 좋은 서비스를 제공하도록 하겠습니다.\r\n\r\n감사합니다\r\n\r\n•제품 및 서비스 문의 : 웅진코웨이 고객센터 1588-5200",
-                "show_yn" : "Y",
-                "start_date" : "20190408115000",
-                "end_date" : "20190410170000",
-                "skip_yn" : "Y",
-                "id" : 7,
-                "reg_date" : "2019-04-08T02:20:11Z"
-            },
-            {
-                "app_key" : "COIOIOP0",
-                "country_code" : "US",
-                "title" : "[IoCare 서버 점검 공지 드립니다.]",
-                "contents" : "IoCare 서버 점검에 대한 내용을 아래와 같이 공지드립니다.\r\n\r\n1. 점검 일시 : 4\/13(토) 23:00 ~ 14(일) 08:00 (9시간)\r\n2. 점검 내용 : 서버 정기점검 및 안정화 개선 작업\r\n3. 점검 영향 : 새로운 제품 등록 불가, Home, 레포트, 기기관리 메뉴 일부 기능 사용 불가\r\n\r\n당 점검 시간 동안 일부 기능 사용 불가함에 널리 양해하여 주시기 바랍니다.\r\n점검을 통해 보다 좋은 서비스를 제공하도록 하겠습니다.\r\n\r\n감사합니다\r\n\r\n•제품 및 서비스 문의 : 웅진코웨이 고객센터 1588-5200",
-                "show_yn" : "N",
-                "start_date" : "20190413230000",
-                "end_date" : "20190414080000",
-                "skip_yn" : "Y",
-                "id" : 6,
-                "reg_date" : "2019-04-08T02:20:07Z"
-            },
-            {
-                "app_key" : "COIOIOP0",
-                "country_code" : "KR",
-                "title" : "[IoCare 서버 점검 공지 드립니다.]",
-                "contents" : "IoCare 서버 점검에 대한 내용을 아래와 같이 공지드립니다.\r\n\r\n1. 점검 일시 : 4\/13(토) 23:00 ~ 14(일) 08:00 (9시간)\r\n2. 점검 내용 : 서버 정기점검 및 안정화 개선 작업\r\n3. 점검 영향 : 새로운 제품 등록 불가, Home, 레포트, 기기관리 메뉴 일부 기능 사용 불가\r\n\r\n당 점검 시간 동안 일부 기능 사용 불가함에 널리 양해하여 주시기 바랍니다.\r\n점검을 통해 보다 좋은 서비스를 제공하도록 하겠습니다.\r\n\r\n감사합니다\r\n\r\n•제품 및 서비스 문의 : 웅진코웨이 고객센터 1588-5200",
-                "show_yn" : "N",
-                "start_date" : "20190413230000",
-                "end_date" : "20190414080000",
-                "skip_yn" : "Y",
-                "id" : 5,
-                "reg_date" : "2019-04-08T02:19:58Z"
-            },
-            {
-                "app_key" : "COIOANP1",
-                "country_code" : "US",
-                "title" : "[IoCare 서버 점검 공지 드립니다.]",
-                "contents" : "IoCare 서버 점검에 대한 내용을 아래와 같이 공지드립니다.\r\n\r\n1. 점검 일시 : 4\/13(토) 23:00 ~ 14(일) 08:00 (9시간)\r\n2. 점검 내용 : 서버 정기점검 및 안정화 개선 작업\r\n3. 점검 영향 : 새로운 제품 등록 불가, Home, 레포트, 기기관리 메뉴 일부 기능 사용 불가\r\n\r\n당 점검 시간 동안 일부 기능 사용 불가함에 널리 양해하여 주시기 바랍니다.\r\n점검을 통해 보다 좋은 서비스를 제공하도록 하겠습니다.\r\n\r\n감사합니다\r\n\r\n•제품 및 서비스 문의 : 웅진코웨이 고객센터 1588-5200",
-                "show_yn" : "N",
-                "start_date" : "20190413230000",
-                "end_date" : "20190414080000",
-                "skip_yn" : "Y",
-                "id" : 4,
-                "reg_date" : "2019-04-08T02:19:22Z"
-            },
-            {
-                "app_key" : "COIOANP1",
-                "country_code" : "KR",
-                "title" : "[IoCare 서버 점검 공지 드립니다.]",
-                "contents" : "IoCare 서버 점검에 대한 내용을 아래와 같이 공지드립니다.\r\n\r\n1. 점검 일시 : 4\/13(토) 23:00 ~ 14(일) 08:00 (9시간)\r\n2. 점검 내용 : 서버 정기점검 및 안정화 개선 작업\r\n3. 점검 영향 : 새로운 제품 등록 불가, Home, 레포트, 기기관리 메뉴 일부 기능 사용 불가\r\n\r\n당 점검 시간 동안 일부 기능 사용 불가함에 널리 양해하여 주시기 바랍니다.\r\n점검을 통해 보다 좋은 서비스를 제공하도록 하겠습니다.\r\n\r\n감사합니다\r\n\r\n•제품 및 서비스 문의 : 웅진코웨이 고객센터 1588-5200",
-                "show_yn" : "Y",
-                "start_date" : "20190408115000",
-                "end_date" : "20190410170000",
-                "skip_yn" : "Y",
-                "id" : 3,
-                "reg_date" : "2019-04-08T02:19:17Z"
-            },
-            {
-                "app_key" : "COIOANP0",
-                "country_code" : "US",
-                "title" : "[IoCare 서버 점검 공지 드립니다.]",
-                "contents" : "IoCare 서버 점검에 대한 내용을 아래와 같이 공지드립니다.\r\n\r\n1. 점검 일시 : 4\/13(토) 23:00 ~ 14(일) 08:00 (9시간)\r\n2. 점검 내용 : 서버 정기점검 및 안정화 개선 작업\r\n3. 점검 영향 : 새로운 제품 등록 불가, Home, 레포트, 기기관리 메뉴 일부 기능 사용 불가\r\n\r\n당 점검 시간 동안 일부 기능 사용 불가함에 널리 양해하여 주시기 바랍니다.\r\n점검을 통해 보다 좋은 서비스를 제공하도록 하겠습니다.\r\n\r\n감사합니다\r\n\r\n•제품 및 서비스 문의 : 웅진코웨이 고객센터 1588-5200",
-                "show_yn" : "N",
-                "start_date" : "20190413230000",
-                "end_date" : "20190414080000",
-                "skip_yn" : "Y",
-                "id" : 2,
-                "reg_date" : "2019-04-08T02:19:09Z"
-            },
-            {
-                "app_key" : "COIOANP0",
-                "country_code" : "KR",
-                "title" : "[IoCare 서버 점검 공지 드립니다.]",
-                "contents" : "IoCare 서버 점검에 대한 내용을 아래와 같이 공지드립니다.\r\n\r\n1. 점검 일시 : 4\/13(토) 23:00 ~ 14(일) 08:00 (9시간)\r\n2. 점검 내용 : 서버 정기점검 및 안정화 개선 작업\r\n3. 점검 영향 : 새로운 제품 등록 불가, Home, 레포트, 기기관리 메뉴 일부 기능 사용 불가\r\n\r\n당 점검 시간 동안 일부 기능 사용 불가함에 널리 양해하여 주시기 바랍니다.\r\n점검을 통해 보다 좋은 서비스를 제공하도록 하겠습니다.\r\n\r\n감사합니다\r\n\r\n•제품 및 서비스 문의 : 웅진코웨이 고객센터 1588-5200",
-                "show_yn" : "N",
-                "start_date" : "20190413230000",
-                "end_date" : "20190414080000",
-                "skip_yn" : "Y",
-                "id" : 1,
-                "reg_date" : "2019-04-08T02:18:56Z"
-            }
-        ],
+        list: []
       }
     },
     methods: {
+        initialize() {
+          this.getNoticeList();
+        },
         replaceTag(text) {
             return text.replace(/(?:\r\n|\r|\n)/g, '<br />');
+        },
+        getNoticeList() {
+          this.$http.get('/api/notice')
+          .then((response) => {
+            this.list = response.data 
+          })
         }
     },
     filters: {
         dateFormat: function (date) {
             // return moment(String(date)).format('YYYY-MM-DD HH:mm');
-            return moment(date, 'YYYY[-]MM[-]DD').format();
+            return moment(date, 'YYYY-MM-DD HH:mm:ss').format();
         },
         countryName(countryCode) {
             var countryName = "";
@@ -237,10 +157,10 @@ const searchByText = (items, term) => {
         appName(appKey) {
             var appName = "";
             switch(appKey) {
-                case "COIOANP0": appName = "AOS 개발"; break;
-                case "COIOIOP0": appName = "iOS 개발"; break;
-                case "COIOANP1": appName = "AOS 검증"; break;
-                case "COIOIOP1": appName = "iOS 검증"; break;
+                case "COIOANP0": appName = "AOS DEV"; break;
+                case "COIOIOP0": appName = "iOS DEV"; break;
+                case "COIOANP1": appName = "AOS STG"; break;
+                case "COIOIOP1": appName = "iOS STG"; break;
                 case "COIFANP1": appName = "AOS US_TEST"; break;
                 case "COIFIOP1": appName = "iOS US_TEST"; break;
             }
