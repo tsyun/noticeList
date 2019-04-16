@@ -1,11 +1,23 @@
+<!-- 공지 리스트 데이터 테이블 -->
 <template>
   <div>
     <v-toolbar flat color="white">
       <v-toolbar-title>IoCare 공지사항</v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-btn color="primary" dark @click="expand = !expand">
-        {{ expand ? 'Close' : 'Keep' }} other rows
-      </v-btn>
+      <!-- full screen dialog 영역 -->
+      <template>
+        <div>
+          <v-btn color="primary" dark @click="handleClickButton">
+            등록
+          </v-btn>
+          <regist-notice title="IoCare 공지 등록" :dialog.sync="dialog">
+            <div>
+              This is Regist IoCare Notice...
+            </div>
+          </regist-notice>
+        </div>
+      </template>
+      <!-- full screen dialog 영역 -->
     </v-toolbar>
     <v-data-table
       :headers="headers"
@@ -42,6 +54,7 @@
 <script>
 
 import moment from "moment";
+import registNotice from "./RegistNotice";
 
 const toLower = text => {
   return text.toString().toLowerCase();
@@ -64,6 +77,7 @@ const searchByText = (items, term) => {
     },
     data () {
       return {
+        dialog: false,
         expand: false,
         progress: true,
         headers: [
@@ -125,18 +139,24 @@ const searchByText = (items, term) => {
         list: []
       }
     },
+    components: {
+      registNotice: registNotice
+    },
     methods: {
-        initialize() {
+        initialize() {  // 초기화
           this.getNoticeList();
         },
-        replaceTag(text) {
+        replaceTag(text) {  // \r,\n 문자를 <br /> 태그로 치환
             return text.replace(/(?:\r\n|\r|\n)/g, '<br />');
         },
-        getNoticeList() {
+        getNoticeList() { // 공지 리스트 조회
           this.$http.get('/api/notice')
           .then((response) => {
             this.list = response.data 
           })
+        },
+        handleClickButton() { // 등록 버튼 클릭
+          this.dialog = !this.dialog
         }
     },
     filters: {
