@@ -7,13 +7,13 @@
       </template>
       <v-card>
         <v-toolbar dark color="primary">
-          <v-btn icon dark @click="$emit('update:visible', !visible)">
+          <v-btn icon dark @click="$emit('update:dialog', !dialog)">
             <v-icon>close</v-icon>
           </v-btn>
           <v-toolbar-title>Settings</v-toolbar-title>
           <v-spacer></v-spacer>
           <v-toolbar-items>
-            <v-btn dark flat @click="$emit('update:visible', !visible)">Save</v-btn>
+            <v-btn dark flat @click="$emit('update:dialog', !dialog)">Save</v-btn>
           </v-toolbar-items>
         </v-toolbar>
         <v-list three-line subheader>
@@ -77,14 +77,14 @@
         widgets: false
       }
     },
-    visible: {
+    dialog: {
         type: Boolean,
         require: true,
         default: false
     },
     methods: {
         handleWrapperClick() {
-            this.$emit('update:visible', false)
+            this.$emit('update:dialog', false)
         }
     }
   }

@@ -20,24 +20,53 @@
       <!-- full screen dialog 영역 -->
     </v-toolbar>
     <v-data-table
+      v-model="selected"
       :headers="headers"
       :items="list"
       :expand="expand"
-      :loading="progress"
+      pagination.sync="pagination"
+      select-all
       item-key="id"
+      class="elevation-1"
     >
-      <template v-slot:loading="props">
-        <v-progress-linear :indeterminate="true"></v-progress-linear>
+      <template v-slot:headers="props">
+        <tr>
+          <th>
+            <v-checkbox
+              :input-value="props.all"
+              :indeterminate="props.indeterminate"
+              primary
+              hide-details
+              @click.stop="toggleAll"
+            ></v-checkbox>
+          </th>
+          <th
+            v-for="header in props.headers"
+            :key="header.text"
+            :class="['column sortable', pagination.descending ? 'desc' : 'asc', header.value === pagination.sortBy ? 'active' : '']"
+            @click="changeSort(header.value)"
+          >
+            <v-icon small>arrow_upward</v-icon>
+            {{ header.text }}
+          </th>
+        </tr>
       </template>
       <template v-slot:items="props">
-        <tr @click="props.expanded = !props.expanded">
+        <tr @click="props.selected = !props.selected" :active="props.selected">
+          <td>
+            <v-checkbox
+              :input-value="props.selected"
+              primary
+              hide-details
+            ></v-checkbox>
+          </td>
           <td>{{ props.item.id }}</td>
-          <td>{{ props.item.title }}</td>
+          <td @click="props.expanded = !props.expanded">{{ props.item.title }}</td>
           <td>{{ props.item.country_code | countryName }}</td>
           <td>{{ props.item.app_key | appName }}</td>
           <td>{{ props.item.show_yn }}</td>
           <td>{{ props.item.skip_yn }}</td>
-          <td>{{ props.item.start_date | dateFormat }}</td>
+          <td>{{ props.item.start_date | dateFormat }}</td>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
           <td>{{ props.item.end_date | dateFormat }}</td>
           <td>{{ props.item.reg_date || dateFormat }}</td>
         </tr>
@@ -48,6 +77,7 @@
         </v-card>
       </template>
     </v-data-table>
+    {{ this.selected }}
   </div>
 </template>
 
@@ -79,7 +109,6 @@ const searchByText = (items, term) => {
       return {
         dialog: false,
         expand: false,
-        progress: true,
         headers: [
           {
             text: 'No',
@@ -136,28 +165,46 @@ const searchByText = (items, term) => {
             value: 'reg_date'
           }
         ],
-        list: []
+        list: [],
+        selected: [],
+        pagination: {
+          sortBy: 'id',
+          descending: true
+        }
       }
     },
     components: {
       registNotice: registNotice
     },
     methods: {
-        initialize() {  // 초기화
-          this.getNoticeList();
-        },
-        replaceTag(text) {  // \r,\n 문자를 <br /> 태그로 치환
-            return text.replace(/(?:\r\n|\r|\n)/g, '<br />');
-        },
-        getNoticeList() { // 공지 리스트 조회
-          this.$http.get('/api/notice')
-          .then((response) => {
-            this.list = response.data 
-          })
-        },
-        handleClickButton() { // 등록 버튼 클릭
-          this.dialog = !this.dialog
+      initialize() {  // 초기화
+        this.getNoticeList();
+      },
+      replaceTag(text) {  // \r,\n 문자를 <br /> 태그로 치환
+          return text.replace(/(?:\r\n|\r|\n)/g, '<br />');
+      },
+      getNoticeList() { // 공지 리스트 조회
+        this.$http.get('/api/notice')
+        .then((response) => {
+          this.list = response.data 
+        })
+      },
+      handleClickButton() { // 등록 버튼 클릭
+        this.dialog = !this.dialog
+      },
+      toggleAll () {
+        if (this.selected.length) this.selected = []
+        else this.selected = this.list.slice()
+      },
+      changeSort (column) {
+        alert(column);
+        if (this.pagination.sortBy === column) {
+          this.pagination.descending = !this.pagination.descending
+        } else {
+          this.pagination.sortBy = column
+          this.pagination.descending = false
         }
+      }
     },
     filters: {
         dateFormat: function (date) {
